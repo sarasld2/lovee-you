@@ -434,7 +434,14 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
 
-        /* حاوية اللعبة المعدلة لعرض الصورة وتقسيمها */
+        /* حاوية اللعبة */
+        .puzzle-wrapper {
+            width: 100%;
+            max-width: 450px;
+            margin: 30px auto;
+            text-align: center;
+        }
+
         .puzzle-container {
             width: 300px;
             height: 300px;
@@ -446,6 +453,7 @@
             background: #111;
             padding: 5px;
             border: 2px dashed #ff2a4b;
+            transition: all 0.8s ease-in-out;
         }
 
         .puzzle-piece {
@@ -455,11 +463,39 @@
             cursor: pointer;
             user-select: none;
             border-radius: 4px;
-            transition: transform 0.2s;
+            transition: border 0.2s, background-position 0.2s;
         }
         
         .puzzle-piece:hover {
             transform: scale(0.98);
+        }
+
+        /* الحركات والتأثيرات الجديدة عند الفوز بالترتيب */
+        .puzzle-container.won {
+            width: 350px; /* تكبير الحاوية */
+            height: 350px;
+            gap: 0px; /* إخفاء المسافات بين المربعات لتندمج الصورة */
+            border: 3px solid #ff2a4b;
+            box-shadow: 0 0 30px rgba(255, 42, 75, 0.6);
+            transform: scale(1.15); /* تأثير التكبير الإضافي */
+        }
+
+        .puzzle-container.won .puzzle-piece {
+            background-size: 350px 350px; /* تكبير الصورة بالداخل */
+            border: none; /* مسح الحدود تماماً لتصبح صورة واحدة كاملة */
+            cursor: default;
+        }
+
+        #puzzle-hint {
+            transition: all 0.5s ease;
+        }
+        
+        .shator-title-won {
+            font-size: 26px !important;
+            color: #00ff66 !important;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(0, 255, 102, 0.5);
+            animation: pulse 1s infinite alternate;
         }
 
         .quiz-container {
@@ -650,7 +686,8 @@
             </div>
         </div>
 
-        <div style="width:100%;">
+        <!-- قسم اللعبة المحدث بالتأثير الجديد -->
+        <div class="puzzle-wrapper">
             <p style="margin-bottom: 10px; font-weight: bold; color: #ff2a4b;" id="puzzle-hint">رتب قطع صورتنا لتكتمل المفاجأة 🧩</p>
             <div class="puzzle-container" id="puzzle-box"></div>
         </div>
@@ -673,7 +710,7 @@
         <div class="final-letter">
             حبيب قلب سارة كل عام وانت بالف خير كل عام وانت حبيبي وحياتي كل عام وانت فرحة لقلبي كل عام وانت نور لعيوني كل عام وانت سندي ورفيق دربي ان شاءالله الله يطول بعمرك فطاعتو ويخليك الي تاج فوق راسي ويديمك حب قلبي بتمنالك هالعمر لجديد يفوت عليك بالخير و الفرح و الرزق و النجاحات بتمنى لو كنت جنبك وكنت بقدر اعايدك عن قرب بس بيجي هيك يوم انشاءالله لسا في كتيييير اعياد ميلاد بتعرف شو بحب كون سندك بالحياة والله و احب فكرة ان اكون لك ك بيت دافئ لا يسألك عن تعبك ولا عن انكسارات يومك فقط يفتح لك ذراعيه بصمت مطمئن تعود إليّ كل مساء كما يعود القلب الى نبضه وكأن العالم كله يهدأ حين تضع خطواتك عندي اكون لك السكن حين يثقل العالم عليك والطمأنينة حين لا يجد قلبك مكانا يرسو فيه وتعلم دون ان اقول انك مهما ابتعدت ستجدني هنا دائما بأنتظارك كما انا بكل لهفتي وفرحي بانتظار وجودك يا روحها لقلبي بتمنالك كل الخير فهدنيا من كل نواحي يا حبيبي انت يا رب تكون هالسنة بداية لكل خير إلك، وتحقق كل أحلامك، وما تشوف بحياتك إلا السعادة والراحة والنجاح. وإذا كان في أمنية بتمنى تتحقق إلي، فهي إني أبقى معك بكل أعياد ميلادك الجاية، ونعيش سوا أجمل الذكريات، ونضحك على كل الأيام الصعبة لأنها بتكون أسهل وإإحنا مع بعض.<br><br>
             شكراً لأنك بتطمني، لأنك بتفهمني، ولأنك الشخص اللي بحس معه إني على طبيعتي بدون ما أمثل أو أخاف. شكراً على كل كلمة حلوة، وكل اهتمام، وكل مرة كنت فيها سند إلي. أنت مو بس حبيبي، أنت أقرب إنسان لقلبي، وأغلى شخص عندي.<br><br>
-            كل عام وأنت نبض قلبي، وفرحتي، وسبب ابتسامتي. الله يحفظك إلي، ويبعد عنك كل حزن وتعب، ويخليك إلي سنين طويلة. وإن شاء الله يكون عيد ميلادك بداية سنة مليانة حب ونجاح وفرح، وتبقى دايمًا الشخص اللي كل ما أشوف اسمه يبتسم قلبي قبل وجهي.<br><br>
+            كل عام وأنت نبض قلبي، وفرحتي، وسبب ابتسامتي. الله يحفظك إلي, ويبعد عنك كل حزن وتعب، ويخليك إلي سنين طويلة. وإن شاء الله يكون عيد ميلادك بداية سنة مليانة حب ونجاح وفرح، وتبقى دايمًا الشخص اللي كل ما أشوف اسمه يبتسم قلبي قبل وجهي.<br><br>
             عيد ميلاد سعيد يا روحي، يا عمري، يا أجمل هدية أعطتني ياها الحياة. بحبك أكثر مما تتخيل، وكل سنة وأنت حبيبي، وأمنيتي الوحيدة إنك تبقى معي للأبد.<br><br>
             <div style="text-align: left; font-weight: bold; color: #ff2a4b; font-size: 22px;">من حبيبتك سارة الي بتحبك وتحترمك تخاف على عيونك... 🫶🏻❤️</div>
         </div>
@@ -681,6 +718,7 @@
 
     <script>
         let selectedPiece = null;
+        let puzzleSolved = false;
 
         window.addEventListener('DOMContentLoaded', () => {
             createHeartsBackground();
@@ -763,42 +801,41 @@
         function checkQuiz(element, isCorrect) {
             if(isCorrect) {
                 element.classList.add('correct');
-                element.innerHTML += "  (صحححح يا روحي وقلبي وعيوني! 😍)";
+                element.innerHTML += " (صحححح يا روحي وقلبي وعيوني! 😍)";
             } else {
                 element.style.borderColor = 'red';
                 alert("غلط يا قلبي فكر منيح بالخيار الأول! 😉");
             }
         }
 
-        // دالة إنشاء اللعبة وقص الصورة لـ 9 قطع قابلة للتبديل عند الضغط
         function initPuzzle() {
             const box = document.getElementById('puzzle-box');
             let positions = [];
+            puzzleSolved = false;
+            box.classList.remove('won');
             
-            // حساب مكان كل قطعة خلفية (X, Y)
             for (let i = 0; i < 9; i++) {
                 let x = (i % 3) * 100;
                 let y = Math.floor(i / 3) * 100;
                 positions.push({ id: i, bgX: -x, bgY: -y });
             }
             
-            // خلط القطع عشوائياً
             let shuffled = [...positions].sort(() => Math.random() - 0.5);
             box.innerHTML = '';
             
-            shuffled.forEach((pos, index) => {
+            shuffled.forEach((pos) => {
                 const piece = document.createElement('div');
                 piece.classList.add('puzzle-piece');
                 piece.style.backgroundPosition = `${pos.bgX}px ${pos.bgY}px`;
                 piece.setAttribute('data-id', pos.id);
                 
-                // ميكانيكية تبديل القطع عند الضغط
                 piece.onclick = function() {
+                    if (puzzleSolved) return; // تعطيل اللمس بعد الفوز
+                    
                     if (!selectedPiece) {
                         selectedPiece = piece;
                         piece.style.border = "2px solid #ff2a4b";
                     } else {
-                        // تبديل الخلفيات والمُعرفات بين القطعتين
                         let tempBg = piece.style.backgroundPosition;
                         let tempId = piece.getAttribute('data-id');
                         
@@ -826,9 +863,28 @@
                     isWin = false;
                 }
             });
-            if (isWin) {
-                document.getElementById('puzzle-hint').innerHTML = "مبرووووك اكتملت صورتنا الفخمة بنجاح! 😍❤️❤️";
-                alert("وااااو رتبتها صح! طلعت الصورة بتجنن! ❤️");
+
+            if (isWin && !puzzleSolved) {
+                puzzleSolved = true;
+                
+                // 1. تغيير عنوان اللعبة إلى العبارة الحماسية
+                const hint = document.getElementById('puzzle-hint');
+                hint.innerText = "شطورررررررررر حبيبي اكتملت صورتنا! ❤️";
+                hint.classList.add('shator-title-won');
+                
+                // 2. تفعيل تأثير التكبير والاندماج على الحاوية
+                const box = document.getElementById('puzzle-box');
+                box.classList.add('won');
+                
+                // 3. تحديث أبعاد الخلفية لكل قطعة لتقرأ الحجم الجديد (350px) بدقة
+                pieces.forEach((piece, index) => {
+                    let x = (index % 3) * 116.66; // 350 تقسيم 3
+                    let y = Math.floor(index / 3) * 116.66;
+                    piece.style.backgroundPosition = `-${x}px -${y}px`;
+                });
+
+                // قلوب كثيرة احتفالاً بالفوز
+                triggerMassiveHearts();
             }
         }
 
