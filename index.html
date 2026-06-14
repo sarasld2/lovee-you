@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إلى حبيب قلبي محمد</title>
     <style>
-        /* إعدادات التصميم العام والفخامة */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -21,7 +20,6 @@
             min-height: 100vh;
         }
 
-        /* تأثير القلوب المتطايرة في الخلفية */
         .hearts-background {
             position: fixed;
             top: 0;
@@ -47,11 +45,9 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* تنسيقات المراحل والصفحات */
         .stage {
             display: none;
             min-height: 100vh;
-            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -64,12 +60,12 @@
         }
 
         .stage.active {
-            display: flex;
+            display: flex !important;
         }
 
-        /* شاشة التحميل الأولية */
         #loader-stage {
             background-color: #050505;
+            cursor: pointer;
         }
 
         .spinner {
@@ -87,7 +83,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* مدخل كلمة السر */
         .password-box {
             background: rgba(20, 20, 20, 0.85);
             padding: 40px;
@@ -132,7 +127,6 @@
             transform: scale(1.05);
         }
 
-        /* صفحة النجاح المؤقتة */
         .success-text {
             font-size: 28px;
             color: #ff2a4b;
@@ -146,9 +140,8 @@
             100% { transform: scale(1); }
         }
 
-        /* المحتوى الرئيسي للموقع */
         #main-content {
-            gap: 60px; /* تباعد ممتاز ومريح بين المراحل */
+            gap: 60px;
         }
 
         .main-title {
@@ -168,7 +161,6 @@
             text-align: justify;
         }
 
-        /* العداد الزمني */
         .timer-container {
             width: 100%;
         }
@@ -220,7 +212,6 @@
             font-size: 14px;
         }
 
-        /* الرسالة المنبثقة من القلوب */
         .hidden-message-wrapper {
             margin: 30px 0;
         }
@@ -252,7 +243,6 @@
             animation: fadeIn 1s ease;
         }
 
-        /* البطاقات المربعة التي تلف */
         .section-title {
             color: #ff2a4b;
             margin-top: 40px;
@@ -322,7 +312,6 @@
             overflow-y: auto;
         }
 
-        /* البطاقات الطويلة */
         .long-cards-container {
             width: 100%;
             display: flex;
@@ -357,7 +346,6 @@
             padding-top: 10px;
         }
 
-        /* تصميم القلب الكبير القابل للقلب */
         .heart-card-wrapper {
             margin: 40px auto;
             width: 250px;
@@ -386,17 +374,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            clip-path: path("M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z");
-            /* تمديد حجم الكليب باث ليتناسب مع الأبعاد عبر الـ transform scale */
-            transform: scale(10); 
-        }
-
-        /* إعادة ضبط الحجم الفعلي للقلب بدقة */
-        .heart-front, .heart-back {
-            clip-path: none;
             background: #ff2a4b;
             border-radius: 50% 50% 0 0;
-            transform: none;
             width: 140px;
             height: 140px;
             top: 40px;
@@ -413,7 +392,6 @@
         .heart-front:before, .heart-back:before { top: -70px; left: 0; }
         .heart-front:after, .heart-back:after { left: 70px; top: 0; }
         
-        /* تدوير جسم القلب ليأخذ الشكل الحقيقي */
         .heart-shape-container {
             width: 140px;
             height: 140px;
@@ -451,7 +429,6 @@
             transform: rotateY(180deg);
         }
 
-        /* لعبة تركيب الصورة البسيطة */
         .puzzle-container {
             width: 300px;
             height: 300px;
@@ -479,7 +456,6 @@
             font-size: 18px;
         }
 
-        /* الـ Quiz التحدي */
         .quiz-container {
             background: #151515;
             padding: 25px;
@@ -509,7 +485,6 @@
             border-color: #28a745;
         }
 
-        /* الوسائط (صوت وفيديو) */
         .media-section {
             width: 100%;
             display: flex;
@@ -526,7 +501,6 @@
             background: #151515;
         }
 
-        /* الرسالة الختامية الكبيرة */
         .final-letter {
             font-style: italic;
             font-size: 20px;
@@ -547,23 +521,19 @@
 </head>
 <body>
 
-    <!-- الخلفية التفاعلية المتطايرة -->
     <div class="hearts-background" id="hearts-bg"></div>
 
-    <!-- موسيقى الخلفية الهادئة الرومانسية -->
-    <!-- يمكنك استبدال الرابط أدناه برابط الأغنية المباشر (اجمل فرحة كلها) عند توفره -->
     <audio id="bg-music" loop>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- المرحلة 1: الانتظار والتحميل -->
-    <div class="stage active" id="loader-stage">
+    <!-- شاشة التحميل: أضفت لها أمر عند الضغط بالماوس أو اللمس ينقلك فوراً لتخطي أي تعليق -->
+    <div class="stage active" id="loader-stage" onclick="goToPasswordStage()">
         <h2>استنى شوي يعيوني... 🥰</h2>
         <div class="spinner"></div>
-        <p style="color: #888;">جاري تحميل حركات بركات موقعنا...</p>
+        <p style="color: #ff2a4b; font-weight: bold;">(إذا علق الموقع اضغطي هنا فوراً لرؤية المفاجأة)</p>
     </div>
 
-    <!-- المرحلة 2: جاهز أنت يعيوني وطلب كلمة السر -->
     <div class="stage" id="password-stage">
         <div class="password-box">
             <h2>جاهز أنت يعيوني؟ 👀</h2>
@@ -575,15 +545,12 @@
         </div>
     </div>
 
-    <!-- المرحلة 3: شاطر يا شطور -->
     <div class="stage" id="shator-stage">
         <p class="success-text">شاااطر يااا شطوررر حبيبي انت !!! 🎉❤️</p>
         <p style="color: #aaa; margin-top: 20px;">ثواني ويدخل لدنيا السعادة...</p>
     </div>
 
-    <!-- المرحلة 4: المحتوى الكبير الكامل والمتباعد -->
     <div class="stage" id="main-content">
-        
         <h1 class="main-title">حبيبي محمد ❤️</h1>
 
         <div class="love-letter">
@@ -591,9 +558,8 @@
             وجُودكَ بحياتي من الأشياء الحلوه اللي خلتني أؤمن بأن صدف الحياة ممكن تكون جميلة جداً أنتَ أجمل شيء دخل حياتي يا روح روحي انت أنتبه لقلبك وضحكتك اللي أحبها أنتبه لفرحِتك لأن هنا فيه شخص يحبك ويحب قلبك جدا ويحب يشوفك بس مبسوط ومرتاح اللّهُ لا يحرمني منك ومن وجودك يا محلي دنَيتي فيك وربي أني أحبك.💋
         </div>
 
-        <!-- العداد الزمني المميز -->
         <div class="timer-container">
-            <h3 class="timer-title" style="color: #ff2a4b;">صحيح يوم ولادتي 02/04/2006 لكن بتعرف قديه صرلي عايشة؟ 😍</h3>
+            <h3 class="timer-title" style="color: #ff2a4b;">صحيح يوم ولادتي 02/04/2006 لكن بتعرف قديه صرلي عايشة? 😍</h3>
             <p style="font-size: 14px; color: #aaa; margin-bottom: 15px;">العداد الحقيقي لبدايتنا من تاريخ: 13/03/2025</p>
             
             <div class="grid-timer">
@@ -611,7 +577,6 @@
             </div>
         </div>
 
-        <!-- الرسالة المنبثقة من القلوب -->
         <div class="hidden-message-wrapper">
             <button class="trigger-btn" onclick="togglePopupMessage()">اضغط هنا لتتشكل القلوب لرسالة 💌</button>
             <div class="popup-message" id="popup-msg">
@@ -619,45 +584,38 @@
             </div>
         </div>
 
-        <!-- قسم من القلب: البطاقات المربعة 2 أمام بعض -->
         <h2 class="section-title">✨ من القلب لك ✨</h2>
         <div class="cards-grid">
-            <!-- البطاقة 1 -->
             <div class="flip-card" onclick="toggleFlip(this)">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">من حبيبتك 💖</div>
                     <div class="flip-card-back">أنا منزلك حين تودّ الاختباء ملاذك حين تضيق بك الطرق وزاويتك الدافئة حين يبرد العالم في عينيك. أنا المكان الذي لا يُرهقك فيه التظاهر ولا تُطالب فيه بأن تكون أقوى مما أنت عليه تعال إلي كما أنت، كل تعبك كل ارتباكك، كل ما تخفيه عن الآخرين ... ففي قلبي متَّسعٌ لك، وفي حضوري أمانٌ يشبه العودة بعد غياب الطويل 🏠✨</div>
                 </div>
             </div>
-            <!-- البطاقة 2 -->
             <div class="flip-card" onclick="toggleFlip(this)">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">بتعرف شو انت بالنسبة الي 🤔</div>
                     <div class="flip-card-back">حبيب قلبي ونور عيونها لسارة وروح قلبها كمان رجلاً هو صديقي الأبدي وعيني الثالثة وروحي الجميلة عائلتي الصغيرة هو حبيبي كل الأوقات وكل الدنيا بعيني روح قلبي ونور عيوني سندي ومسندي واتكائي وملكي ومملكتي 👑❤️</div>
                 </div>
             </div>
-            <!-- البطاقة 3 -->
             <div class="flip-card" onclick="toggleFlip(this)">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">بتعرف شو اجمل كلمة بتعجبني من عندك 🗣️</div>
                     <div class="flip-card-back">بروتيناتي وفراشتي واميرتي 🦋✨👑</div>
                 </div>
             </div>
-            <!-- البطاقة 4 -->
             <div class="flip-card" onclick="toggleFlip(this)">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">بشو بتوعدك حبيبتك 💍</div>
                     <div class="flip-card-back">لن اعدك ان تكون الحياة مثالية معي ولكني أعدك انك في النهاية ستجدني معك في كل الاحوال و ستجد كتفًا لرأسك المُثقل بالهمومّ ، وانيس لفرحك وسند لظهرك وسأتمسك بك مهما حصل بيننا ، وسأضعك بين عيناي وفوق راسي للأبد ولن أتركك باذن الله 🕊️💕</div>
                 </div>
             </div>
-            <!-- البطاقة 5 -->
             <div class="flip-card" onclick="toggleFlip(this)">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">فخورة فيك جدااااا 🥺💪</div>
                     <div class="flip-card-back">إني فخورة فيك كتير وبالشخص لي بحبو اللي ما بيستسلم مهما كانت الظروف الله يجعل كل تعبك خير فخورة فيك وبشغلك أكتر ما بتتخيل كل خطوة عم تخطيها هي سبب بيخليني ارفع راسي فيك الله يفتحلك أبواب الخير كلها ويبارك بتعبك ي حبيب روحي بالنسبة الي محاولتك لا تقدر بثمن أعرف شكد تتعب بشغلك بس وحق عيونك اللي أحبها أتمنى لو أقدر أخذ كل تعبك وأخليه بيا انا ولا يمسك شي أريد أصيرلك السند والراحة مسح على راسك بإيدي وحاول شيل عنك تعبك يروحلك التعب يا بعد راحتي..</div>
                 </div>
             </div>
-            <!-- البطاقة 6 -->
             <div class="flip-card" onclick="toggleFlip(this)">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">أنت جانبي المشرق ☀️</div>
@@ -666,7 +624,6 @@
             </div>
         </div>
 
-        <!-- البطاقات الطويلة (تفتح لأسفل بنعومة) -->
         <div class="long-cards-container">
             <div class="long-card" onclick="toggleLongCard(this)">
                 <div class="long-card-title">لما تزعل افتحها 🥺💔</div>
@@ -683,7 +640,6 @@
             </div>
         </div>
 
-        <!-- قلب كبير قابل للقلب يحتوي مسج أدامك الله -->
         <div class="heart-card-wrapper" onclick="this.classList.toggle('flipped')">
             <div class="heart-card-inner">
                 <div class="heart-absolute-front">
@@ -697,15 +653,11 @@
             </div>
         </div>
 
-        <!-- لعبة ترتيب صور مقطعة (Puzzle) -->
         <div style="width:100%;">
             <p style="margin-bottom: 10px; font-weight: bold; color: #ff2a4b;" id="puzzle-hint">هلق بدك ترتب صورتنا مع بعض 🧩</p>
-            <div class="puzzle-container" id="puzzle-box">
-                <!-- المربعات ستتولد برمجياً وجاهزة لتضع صورتك بالمستقبل كخلفية للمربعات -->
-            </div>
+            <div class="puzzle-container" id="puzzle-box"></div>
         </div>
 
-        <!-- كويز التحدي سؤال واحد -->
         <div class="quiz-container">
             <h3 style="color: #ff2a4b; margin-bottom: 15px;">كم فرق التوقيت بين بلدك وبلدي؟ ⏰</h3>
             <div class="quiz-option" onclick="checkQuiz(this, true)">1/ مافي فرق قلوبنا على نفس توقيت دائماً ❤️</div>
@@ -713,26 +665,14 @@
             <div class="quiz-option" onclick="checkQuiz(this, false)">3/ ثلاث ساعات بالضبط ⏳</div>
         </div>
 
-        <!-- أماكن فارغة مجهزة للمقاطع الصوتية والفيديو في المستقبل -->
         <div class="media-section">
             <h3 style="color: #ff2a4b;">🎧 مقاطعي الصوتية المسجلة لك</h3>
-            <audio controls>
-                <source src="" type="audio/mpeg">
-                مكان المقطع الصوتي الأول فارغ (ارفعي ملفكِ الصوتي هنا لاحقاً)
-            </audio>
-            <audio controls>
-                <source src="" type="audio/mpeg">
-                مكان المقطع الصوتي الثاني فارغ (ارفعي ملفكِ الصوتي هنا لاحقاً)
-            </audio>
-
+            <audio controls><source src="" type="audio/mpeg">مكان المقطع الأول</audio>
+            <audio controls><source src="" type="audio/mpeg">مكان المقطع الثاني</audio>
             <h3 style="color: #ff2a4b; margin-top: 20px;">🎂 فيديو الكيكة والمفاجأة</h3>
-            <video controls>
-                <source src="" type="video/mp4">
-                مكان الفيديو المخصص للكيكة (ارفعي الفيديو هنا لاحقاً)
-            </video>
+            <video controls><source src="" type="video/mp4">مكان الفيديو</video>
         </div>
 
-        <!-- الرسالة الختامية الكبيرة والخط المائل الجميل -->
         <div class="final-letter">
             حبيب قلب سارة كل عام وانت بالف خير كل عام وانت حبيبي وحياتي كل عام وانت فرحة لقلبي كل عام وانت نور لعيوني كل عام وانت سندي ورفيق دربي ان شاءالله الله يطول بعمرك فطاعتو ويخليك الي تاج فوق راسي ويديمك حب قلبي بتمنالك هالعمر لجديد يفوت عليك بالخير و الفرح و الرزق و النجاحات بتمنى لو كنت جنبك وكنت بقدر اعايدك عن قرب بس بيجي هيك يوم انشاءالله لسا في كتيييير اعياد ميلاد بتعرف شو بحب كون سندك بالحياة والله و احب فكرة ان اكون لك ك بيت دافئ لا يسألك عن تعبك ولا عن انكسارات يومك فقط يفتح لك ذراعيه بصمت مطمئن تعود إليّ كل مساء كما يعود القلب الى نبضه وكأن العالم كله يهدأ حين تضع خطواتك عندي اكون لك السكن حين يثقل العالم عليك والطمأنينة حين لا يجد قلبك مكانا يرسو فيه وتعلم دون ان اقول انك مهما ابتعدت ستجدني هنا دائما بأنتظارك كما انا بكل لهفتي وفرحي بانتظار وجودك يا روحها لقلبي بتمنالك كل الخير فهدنيا من كل نواحي يا حبيبي انت يا رب تكون هالسنة بداية لكل خير إلك، وتحقق كل أحلامك، وما تشوف بحياتك إلا السعادة والراحة والنجاح. وإذا كان في أمنية بتمنى تتحقق إلي، فهي إني أبقى معك بكل أعياد ميلادك الجاية، ونعيش سوا أجمل الذكريات، ونضحك على كل الأيام الصعبة لأنها بتكون أسهل وإحنا مع بعض.<br><br>
             شكراً لأنك بتطمني، لأنك بتفهمني، ولأنك الشخص اللي بحس معه إني على طبيعتي بدون ما أمثل أو أخاف. شكراً على كل كلمة حلوة، وكل اهتمام، وكل مرة كنت فيها سند إلي. أنت مو بس حبيبي، أنت أقرب إنسان لقلبي، وأغلى شخص عندي.<br><br>
@@ -740,20 +680,23 @@
             عيد ميلاد سعيد يا روحي، يا عمري، يا أجمل هدية أعطتني ياها الحياة. بحبك أكثر مما تتخيل، وكل سنة وأنت حبيبي، وأمنيتي الوحيدة إنك تبقى معي للأبد.<br><br>
             <div style="text-align: left; font-weight: bold; color: #ff2a4b; font-size: 22px;">من حبيبتك سارة الي بتحبك وتحترمك تخاف على عيونك... 🫶🏻❤️</div>
         </div>
-
     </div>
 
     <script>
-        // حركات البداية (انتظار ثم نقل لصفحة الكلمة السرية)
         window.addEventListener('DOMContentLoaded', () => {
             createHeartsBackground();
-            setTimeout(() => {
-                document.getElementById('loader-stage').classList.remove('active');
-                document.getElementById('password-stage').classList.add('active');
-            }, 3500); // 3.5 ثوانٍ حركات بركات ودوران للموقع
+            // الانتقال التلقائي السريع بعد 3 ثوانٍ
+            setTimeout(goToPasswordStage, 3000);
         });
 
-        // توليد قلوب عشوائية متطايرة بالخلفية بشكل مستمر
+        function goToPasswordStage() {
+            const loader = document.getElementById('loader-stage');
+            if (loader.classList.contains('active')) {
+                loader.classList.remove('active');
+                document.getElementById('password-stage').classList.add('active');
+            }
+        }
+
         function createHeartsBackground() {
             const bg = document.getElementById('hearts-bg');
             setInterval(() => {
@@ -764,12 +707,10 @@
                 heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
                 bg.appendChild(heart);
-
                 setTimeout(() => { heart.remove(); }, 7000);
             }, 300);
         }
 
-        // فحص كلمة السر والتحويل لشاطر يا شطور
         function checkPassword() {
             const input = document.getElementById('pass-input').value;
             const error = document.getElementById('error-msg');
@@ -779,37 +720,31 @@
                 document.getElementById('password-stage').classList.remove('active');
                 document.getElementById('shator-stage').classList.add('active');
                 
-                // تشغيل الأغنية الخلفية
                 const music = document.getElementById('bg-music');
-                music.play().catch(e => console.log("المتصفح يمنع التشغيل التلقائي حتى يتفاعل المستخدم"));
+                music.play().catch(e => console.log("Music click prompt"));
 
                 setTimeout(() => {
                     document.getElementById('shator-stage').classList.remove('active');
                     document.getElementById('main-content').classList.add('active');
                     initCountdown();
                     initPuzzle();
-                    triggerMassiveHearts(); // انفجار قلوب عند الوصول للنهاية أو فتح الصفحة
+                    triggerMassiveHearts();
                 }, 3000);
             } else {
                 error.style.display = 'block';
             }
         }
 
-        // حساب العداد الزمني الدقيق من تاريخ 13/03/2025
         function initCountdown() {
             const startDate = new Date('2025-03-13T00:00:00').getTime();
-
             setInterval(() => {
                 const now = new Date().getTime();
                 let diff = now - startDate;
-
                 if (diff < 0) diff = 0;
 
                 const seconds = Math.floor((diff / 1000) % 60);
                 const minutes = Math.floor((diff / 1000 / 60) % 60);
                 const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                
-                // حساب الأيام والأشهر والسنوات التقريبية بشكل منسق وبديع
                 const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const years = Math.floor(totalDays / 365);
                 const months = Math.floor((totalDays % 365) / 30);
@@ -824,24 +759,17 @@
             }, 1000);
         }
 
-        // إظهار وإخفاء رسالة القلوب المنبثقة
         function togglePopupMessage() {
             const msg = document.getElementById('popup-msg');
             msg.style.display = (msg.style.display === 'block') ? 'none' : 'block';
         }
 
-        // قلب البطاقات المربعة عند النقر
-        function toggleFlip(card) {
-            card.classList.toggle('flipped');
-        }
-
-        // فتح البطاقات الطويلة بنعومة
+        function toggleFlip(card) { card.classList.toggle('flipped'); }
         function toggleLongCard(card) {
             const content = card.querySelector('.long-card-content');
             content.style.display = (content.style.display === 'block') ? 'none' : 'block';
         }
 
-        // فحص إجابة الكويز
         function checkQuiz(element, isCorrect) {
             if(isCorrect) {
                 element.classList.add('correct');
@@ -852,28 +780,19 @@
             }
         }
 
-        // بناء لعبة تركيب صورة عشوائية ترفيهية (مقسمة لـ 9 قطع مبعثرة للترتيب البصري)
-        let pieces = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         function initPuzzle() {
             const box = document.getElementById('puzzle-box');
-            // خلط القطع عشوائياً
-            pieces.sort(() => Math.random() - 0.5);
+            let pieces = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
             box.innerHTML = '';
             pieces.forEach(p => {
                 const piece = document.createElement('div');
                 piece.classList.add('puzzle-piece');
                 piece.innerText = p;
-                piece.onclick = () => swapPieces(piece);
+                piece.onclick = () => alert("رتب القطع بالتفكير فيها لتكتمل الصورة البصرية معنا قريباً ❤️");
                 box.appendChild(piece);
             });
         }
-        
-        function swapPieces(el) {
-            // حركة تبديل بسيطة لترتيب الأرقام من 1 لـ 9 ليتم تجميع الصورة
-            alert("رتب القطع بالتفكير فيها لتكتمل الصورة البصرية معنا قريباً ❤️");
-        }
 
-        // ميزة تطاير قلوب بكثافة فائقة في كل مكان
         function triggerMassiveHearts() {
             const bg = document.getElementById('hearts-bg');
             for(let i=0; i<50; i++) {
@@ -888,13 +807,10 @@
                     heart.style.opacity = '1';
                     heart.style.transition = 'all 2s ease';
                     bg.appendChild(heart);
-                    
-                    // تأثير الانتشار المتفجر
                     setTimeout(() => {
                         heart.style.transform = `scale(2) translate(${Math.random()*100 - 50}px, ${Math.random()*100 - 50}px)`;
                         heart.style.opacity = '0';
                     }, 100);
-
                     setTimeout(() => { heart.remove(); }, 2500);
                 }, i * 50);
             }
