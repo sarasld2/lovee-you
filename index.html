@@ -916,6 +916,96 @@
                 }, i * 50);
             }
         }
+   <div class="wheel-section" style="text-align: center; margin: 50px auto 30px auto; max-width: 400px; font-family: 'Cairo', sans-serif; border-top: 2px dashed #ff2a4b; padding-top: 30px;">
+    <h3 style="color: #ff2a4b; margin-bottom: 20px;">🎡 عجلة الحظ السعيدة.. لف وشوف حظك!</h3>
+    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">اضغط على الزر والمكان اللي تقف عنده العجلة أنت ملزم بتنفيذه! 😉</p>
+    
+    <div style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
+        <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #ff2a4b; z-index: 10;"></div>
+        <canvas id="wheel" width="300" height="300" style="border-radius: 50%; box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: transform 4s cubic-bezier(0.1, 0.8, 0.3, 1);"></canvas>
+    </div>
+    
+    <button id="spin-btn" onclick="spinWheel()" style="background: linear-gradient(45deg, #ff2a4b, #ff6b81); color: white; border: none; padding: 12px 35px; font-size: 18px; font-weight: bold; border-radius: 25px; margin-top: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(255,42,75,0.3); transition: 0.3s;">🎯 لف العجلة ونصيبك يصيبك</button>
+    
+    <div id="wheel-result" style="display: none; margin-top: 20px; padding: 15px; background: #fff0f2; border: 2px dashed #ff2a4b; border-radius: 10px; color: #ff2a4b; font-size: 18px; font-weight: bold; animation: popIn 0.5s ease;"></div>
+</div>
+
+<style>
+@keyframes popIn { 0% { transform: scale(0.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+</style>
+
+<script>
+// البرمجة الخاصة بعجلة الحظ المحدثة بطلباتكِ الخمسة
+setTimeout(() => {
+    const canvas = document.getElementById("wheel");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const prizes = [
+        "🎤 فويس مدته 5 دقائق كاملة",
+        "👑 عندي فري اطلب شو مابدي لمدة شهر",
+        "🤫 تعاملني بلطف وهدوء لمدة اسبوع",
+        "✨ تفوز معناا ببوسة",
+        "🎶 تهديني اغنية الي حسب شو حاسس حالا"
+    ];
+    const colors = ["#ff2a4b", "#ff6b81", "#ff8597", "#ff4d6d", "#ff758f"];
+    const numSegments = prizes.length;
+    const segmentAngle = (2 * Math.PI) / numSegments;
+    let currentRotation = 0;
+    let isSpinning = false;
+
+    function drawWheel() {
+        ctx.clearRect(0, 0, 300, 300);
+        for (let i = 0; i < numSegments; i++) {
+            const angle = i * segmentAngle;
+            ctx.beginPath();
+            ctx.fillStyle = colors[i];
+            ctx.moveTo(150, 150);
+            ctx.arc(150, 150, 150, angle, angle + segmentAngle);
+            ctx.lineTo(150, 150);
+            ctx.fill();
+            
+            ctx.save();
+            ctx.translate(150, 150);
+            ctx.rotate(angle + segmentAngle / 2);
+            ctx.textAlign = "right";
+            ctx.fillStyle = "white";
+            ctx.font = "bold 11px Cairo, sans-serif";
+            
+            const words = prizes[i].split(" ");
+            if (words.length > 4) {
+                ctx.fillText(words.slice(0, 3).join(" "), 130, -5);
+                ctx.fillText(words.slice(3).join(" "), 130, 10);
+            } else {
+                ctx.fillText(prizes[i], 130, 5);
+            }
+            ctx.restore();
+        }
+    }
+    drawWheel();
+
+    window.spinWheel = function() {
+        if (isSpinning) return;
+        isSpinning = true;
+        document.getElementById("wheel-result").style.display = "none";
+        
+        const extraDegrees = Math.floor(Math.random() * 360);
+        const totalRotation = 1800 + extraDegrees; 
+        currentRotation += totalRotation;
+        
+        canvas.style.transform = `rotate(${currentRotation}deg)`;
+        
+        setTimeout(() => {
+            isSpinning = false;
+            const actualDegrees = (currentRotation % 360);
+            const index = Math.floor((360 - actualDegrees + 90) % 360 / (360 / numSegments));
+            
+            const resultDiv = document.getElementById("wheel-result");
+            resultDiv.innerHTML = `🎉 حظك طلع: <br><span style="font-size: 20px; color: #333;">${prizes[index]}</span><br>😂 يلا يا محمد، نفذ الحين وبدون أعذار!`;
+            resultDiv.style.display = "block";
+        }, 4000);
+    }
+}, 500);
+</script>
     </script>
 </body>
 </html>
