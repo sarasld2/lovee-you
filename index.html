@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى حبيب قلبي محمد</title>
+    <style>
+        /* إعدادات التصميم العام والفخامة */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* تأثير القلوب المتطايرة في الخلفية */
+        .hearts-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: #ff2a4b;
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* تنسيقات المراحل والصفحات */
+        .stage {
+            display: none;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stage.active {
+            display: flex;
+        }
+
+        /* شاشة التحميل الأولية */
+        #loader-stage {
+            background-color: #050505;
+        }
+
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid #222;
+            border-top: 5px solid #ff2a4b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* مدخل كلمة السر */
+        .password-box {
+            background: rgba(20, 20, 20, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #ff2a4b44;
+            box-shadow: 0 10px 30px rgba(255, 42, 75, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #151515;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin: 20px 0;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="password"]:focus {
+            border-color: #ff2a4b;
+            box-shadow: 0 0 10px rgba(255, 42, 75, 0.3);
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff2a4b, #b3122b);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s transform;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        /* صفحة النجاح المؤقتة */
+        .success-text {
+            font-size: 28px;
+            color: #ff2a4b;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* المحتوى الرئيسي للموقع */
+        #main-content {
+            gap: 60px; /* تباعد ممتاز ومريح بين المراحل */
+        }
+
+        .main-title {
+            font-size: 42px;
+            color: #ff2a4b;
+            text-shadow: 0 0 15px rgba(255, 42, 75, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .love-letter {
+            background: rgba(20, 20, 20, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            border-right: 5px solid #ff2a4b;
+            line-height: 1.8;
+            font-size: 18px;
+            text-align: justify;
+        }
+
+        /* العداد الزمني */
+        .timer-container {
+            width: 100%;
+        }
+
+        .timer-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .grid-timer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .timer-unit {
+            background: #151515;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #222;
+        }
+
+        .timer-unit span {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff2a4b;
+        }
+
+        .timer-unit label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .sub-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .sub-box {
+            background: rgba(255, 42, 75, 0.1);
+            border: 1px dashed #ff2a4b;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* الرسالة المنبثقة من القلوب */
+        .hidden-message-wrapper {
+            margin: 30px 0;
+        }
+
+        .trigger-btn {
+            background: none;
+            border: 2px solid #ff2a4b;
+            color: #ff2a4b;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .trigger-btn:hover {
+            background: #ff2a4b;
+            color: white;
+        }
+
+        .popup-message {
+            display: none;
+            background: #1a1a1a;
+            border: 1px solid #ff2a4b;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            line-height: 1.7;
+            text-align: right;
+            animation: fadeIn 1s ease;
+        }
+
+        /* البطاقات المربعة التي تلف */
+        .section-title {
+            color: #ff2a4b;
+            margin-top: 40px;
+            font-size: 24px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-card-front {
+            background: #151515;
+            color: white;
+            border: 1px solid #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .flip-card-back {
+            background: #221215;
+            color: #f0f0f0;
+            transform: rotateY(180deg);
+            border: 1px solid #ff2a4b;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-y: auto;
+        }
+
+        /* البطاقات الطويلة */
+        .long-cards-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .long-card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: right;
+        }
+
+        .long-card-title {
+            font-weight: bold;
+            color: #ff2a4b;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .long-card-content {
+            display: none;
+            margin-top: 15px;
+            line-height: 1.6;
+            color: #ddd;
+            border-top: 1px solid #222;
+            padding-top: 10px;
+        }
+
+        /* تصميم القلب الكبير القابل للقلب */
+        .heart-card-wrapper {
+            margin: 40px auto;
+            width: 250px;
+            height: 250px;
+            perspective: 1000px;
+        }
+
+        .heart-card-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .heart-card-wrapper.flipped .heart-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .heart-front, .heart-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: path("M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z");
+            /* تمديد حجم الكليب باث ليتناسب مع الأبعاد عبر الـ transform scale */
+            transform: scale(10); 
+        }
+
+        /* إعادة ضبط الحجم الفعلي للقلب بدقة */
+        .heart-front, .heart-back {
+            clip-path: none;
+            background: #ff2a4b;
+            border-radius: 50% 50% 0 0;
+            transform: none;
+            width: 140px;
+            height: 140px;
+            top: 40px;
+            left: 55px;
+        }
+        .heart-front:before, .heart-front:after, .heart-back:before, .heart-back:after {
+            content: "";
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
+        }
+        .heart-front:before, .heart-back:before { top: -70px; left: 0; }
+        .heart-front:after, .heart-back:after { left: 70px; top: 0; }
+        
+        /* تدوير جسم القلب ليأخذ الشكل الحقيقي */
+        .heart-shape-container {
+            width: 140px;
+            height: 140px;
+            transform: rotate(-45deg);
+            position: relative;
+        }
+
+        .heart-front-content, .heart-back-content {
+            transform: rotate(45deg);
+            position: absolute;
+            width: 180px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            z-index: 5;
+        }
+        .heart-back-content {
+            font-size: 11px;
+            padding: 10px;
+            direction: rtl;
+            width: 200px;
+            line-height: 1.4;
+        }
+        
+        .heart-absolute-front, .heart-absolute-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .heart-absolute-back {
+            transform: rotateY(180deg);
+        }
+
+        /* لعبة تركيب الصورة البسيطة */
+        .puzzle-container {
+            width: 300px;
+            height: 300px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px auto;
+            background: #111;
+            padding: 5px;
+            border: 2px dashed #ff2a4b;
+        }
+
+        .puzzle-piece {
+            background-color: #222;
+            color: #ff2a4b;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        /* الـ Quiz التحدي */
+        .quiz-container {
+            background: #151515;
+            padding: 25px;
+            border-radius: 15px;
+            width: 100%;
+            border: 1px solid #222;
+            margin-top: 20px;
+        }
+
+        .quiz-option {
+            background: #202020;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid #333;
+        }
+
+        .quiz-option:hover {
+            background: #252525;
+            border-color: #ff2a4b;
+        }
+
+        .quiz-option.correct {
+            background: rgba(40, 167, 69, 0.2);
+            border-color: #28a745;
+        }
+
+        /* الوسائط (صوت وفيديو) */
+        .media-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        audio, video {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            border-radius: 10px;
+            background: #151515;
+        }
+
+        /* الرسالة الختامية الكبيرة */
+        .final-letter {
+            font-style: italic;
+            font-size: 20px;
+            line-height: 1.9;
+            text-align: justify;
+            color: #fff;
+            background: linear-gradient(145deg, #121212, #1a1a1a);
+            padding: 35px;
+            border-radius: 25px;
+            border: 1px solid #ff2a4b33;
+            box-shadow: inset 0 0 20px rgba(255,42,75,0.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الخلفية التفاعلية المتطايرة -->
+    <div class="hearts-background" id="hearts-bg"></div>
+
+    <!-- موسيقى الخلفية الهادئة الرومانسية -->
+    <!-- يمكنك استبدال الرابط أدناه برابط الأغنية المباشر (اجمل فرحة كلها) عند توفره -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- المرحلة 1: الانتظار والتحميل -->
+    <div class="stage active" id="loader-stage">
+        <h2>استنى شوي يعيوني... 🥰</h2>
+        <div class="spinner"></div>
+        <p style="color: #888;">جاري تحميل حركات بركات موقعنا...</p>
+    </div>
+
+    <!-- المرحلة 2: جاهز أنت يعيوني وطلب كلمة السر -->
+    <div class="stage" id="password-stage">
+        <div class="password-box">
+            <h2>جاهز أنت يعيوني؟ 👀</h2>
+            <p style="margin-top: 10px; color: #aaa;">(اكتب كلمة سر بقلك ياها انا الك يا ترا شو بتكون)</p>
+            <input type="password" id="pass-input" placeholder="اكتب الكلمة السرية هنا...">
+            <br>
+            <button onclick="checkPassword()">دخول يا روحي</button>
+            <p id="error-msg" style="color: red; margin-top: 10px; display: none;">الكلمة غلط يا عمري ركز شوي! ❤️</p>
+        </div>
+    </div>
+
+    <!-- المرحلة 3: شاطر يا شطور -->
+    <div class="stage" id="shator-stage">
+        <p class="success-text">شاااطر يااا شطوررر حبيبي انت !!! 🎉❤️</p>
+        <p style="color: #aaa; margin-top: 20px;">ثواني ويدخل لدنيا السعادة...</p>
+    </div>
+
+    <!-- المرحلة 4: المحتوى الكبير الكامل والمتباعد -->
+    <div class="stage" id="main-content">
+        
+        <h1 class="main-title">حبيبي محمد ❤️</h1>
+
+        <div class="love-letter">
+            <strong>هاااي يا شاطر كيفك !!!!!</strong><br><br>
+            وجُودكَ بحياتي من الأشياء الحلوه اللي خلتني أؤمن بأن صدف الحياة ممكن تكون جميلة جداً أنتَ أجمل شيء دخل حياتي يا روح روحي انت أنتبه لقلبك وضحكتك اللي أحبها أنتبه لفرحِتك لأن هنا فيه شخص يحبك ويحب قلبك جدا ويحب يشوفك بس مبسوط ومرتاح اللّهُ لا يحرمني منك ومن وجودك يا محلي دنَيتي فيك وربي أني أحبك.💋
+        </div>
+
+        <!-- العداد الزمني المميز -->
+        <div class="timer-container">
+            <h3 class="timer-title" style="color: #ff2a4b;">صحيح يوم ولادتي 02/04/2006 لكن بتعرف قديه صرلي عايشة؟ 😍</h3>
+            <p style="font-size: 14px; color: #aaa; margin-bottom: 15px;">العداد الحقيقي لبدايتنا من تاريخ: 13/03/2025</p>
+            
+            <div class="grid-timer">
+                <div class="timer-unit"><span id="years">00</span><label>سنوات</label></div>
+                <div class="timer-unit"><span id="months">00</span><label>أشهر</label></div>
+                <div class="timer-unit"><span id="days">00</span><label>أيام</label></div>
+                <div class="timer-unit"><span id="hours">00</span><label>ساعات</label></div>
+                <div class="timer-unit"><span id="minutes">00</span><label>دقائق</label></div>
+                <div class="timer-unit"><span id="seconds">00</span><label>ثواني</label></div>
+            </div>
+
+            <div class="sub-boxes">
+                <div class="sub-box">الساعات المتفق عليها (11061) ⏱️</div>
+                <div class="sub-box">الدقائق المتفق عليها (663689) ⏳</div>
+            </div>
+        </div>
+
+        <!-- الرسالة المنبثقة من القلوب -->
+        <div class="hidden-message-wrapper">
+            <button class="trigger-btn" onclick="togglePopupMessage()">اضغط هنا لتتشكل القلوب لرسالة 💌</button>
+            <div class="popup-message" id="popup-msg">
+                ((حبيبي حياتي امك لي هي بغلاوة امي بعرف هلق قلتلك امك قلتلي امك نتي المهم جابتك لدنيا وجابت دنيا ليا أتمنى لك سنة مليئة بالفرحة والنجاح وتحقيق كل أحلامك والله يرزقك من واسع سماه ان شاءالله ويوفقك ويعطيك كلو اضعاف مضاعفة يا عيوني لتعرف رح يكونو الي خبيهم هااااا (بمزح) وجودك في حياتي نعمة كبيرة بالنسبة الي واكيد وجودي نعمة الك عفكرة نورتلك حياتكنتمنى تكون ديما بخير وديما قلبك مرتاح وفرحان ان شاءالله بوجود عائلتك واهلك وكل لي بتحبهم انا معك وبوجودك تعلمت شو يعني تحس انو الك روح بمكان ثاني بالحفظ وصون يانظر عيوني وقلبي اعرف انك بقلبي وين مارحت ووين ماجيت استودعتك اللّٰه في نومك وقومك وفي روحتك يا حبيب قلبي انت )) 🥰❤️
+            </div>
+        </div>
+
+        <!-- قسم من القلب: البطاقات المربعة 2 أمام بعض -->
+        <h2 class="section-title">✨ من القلب لك ✨</h2>
+        <div class="cards-grid">
+            <!-- البطاقة 1 -->
+            <div class="flip-card" onclick="toggleFlip(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">من حبيبتك 💖</div>
+                    <div class="flip-card-back">أنا منزلك حين تودّ الاختباء ملاذك حين تضيق بك الطرق وزاويتك الدافئة حين يبرد العالم في عينيك. أنا المكان الذي لا يُرهقك فيه التظاهر ولا تُطالب فيه بأن تكون أقوى مما أنت عليه تعال إلي كما أنت، كل تعبك كل ارتباكك، كل ما تخفيه عن الآخرين ... ففي قلبي متَّسعٌ لك، وفي حضوري أمانٌ يشبه العودة بعد غياب الطويل 🏠✨</div>
+                </div>
+            </div>
+            <!-- البطاقة 2 -->
+            <div class="flip-card" onclick="toggleFlip(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">بتعرف شو انت بالنسبة الي 🤔</div>
+                    <div class="flip-card-back">حبيب قلبي ونور عيونها لسارة وروح قلبها كمان رجلاً هو صديقي الأبدي وعيني الثالثة وروحي الجميلة عائلتي الصغيرة هو حبيبي كل الأوقات وكل الدنيا بعيني روح قلبي ونور عيوني سندي ومسندي واتكائي وملكي ومملكتي 👑❤️</div>
+                </div>
+            </div>
+            <!-- البطاقة 3 -->
+            <div class="flip-card" onclick="toggleFlip(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">بتعرف شو اجمل كلمة بتعجبني من عندك 🗣️</div>
+                    <div class="flip-card-back">بروتيناتي وفراشتي واميرتي 🦋✨👑</div>
+                </div>
+            </div>
+            <!-- البطاقة 4 -->
+            <div class="flip-card" onclick="toggleFlip(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">بشو بتوعدك حبيبتك 💍</div>
+                    <div class="flip-card-back">لن اعدك ان تكون الحياة مثالية معي ولكني أعدك انك في النهاية ستجدني معك في كل الاحوال و ستجد كتفًا لرأسك المُثقل بالهمومّ ، وانيس لفرحك وسند لظهرك وسأتمسك بك مهما حصل بيننا ، وسأضعك بين عيناي وفوق راسي للأبد ولن أتركك باذن الله 🕊️💕</div>
+                </div>
+            </div>
+            <!-- البطاقة 5 -->
+            <div class="flip-card" onclick="toggleFlip(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">فخورة فيك جدااااا 🥺💪</div>
+                    <div class="flip-card-back">إني فخورة فيك كتير وبالشخص لي بحبو اللي ما بيستسلم مهما كانت الظروف الله يجعل كل تعبك خير فخورة فيك وبشغلك أكتر ما بتتخيل كل خطوة عم تخطيها هي سبب بيخليني ارفع راسي فيك الله يفتحلك أبواب الخير كلها ويبارك بتعبك ي حبيب روحي بالنسبة الي محاولتك لا تقدر بثمن أعرف شكد تتعب بشغلك بس وحق عيونك اللي أحبها أتمنى لو أقدر أخذ كل تعبك وأخليه بيا انا ولا يمسك شي أريد أصيرلك السند والراحة مسح على راسك بإيدي وحاول شيل عنك تعبك يروحلك التعب يا بعد راحتي..</div>
+                </div>
+            </div>
+            <!-- البطاقة 6 -->
+            <div class="flip-card" onclick="toggleFlip(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">أنت جانبي المشرق ☀️</div>
+                    <div class="flip-card-back">أنت جانبي المُشرق، أوقاتي السعيدة، مكاني الآمن .. وإنتصاري على الزمن يفِيضُ من عَينيك حَنان العالم أجمع هذا حبيبي وهذا ما تمنيتُ إن القاهُ يوماً 🥰💎</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- البطاقات الطويلة (تفتح لأسفل بنعومة) -->
+        <div class="long-cards-container">
+            <div class="long-card" onclick="toggleLongCard(this)">
+                <div class="long-card-title">لما تزعل افتحها 🥺💔</div>
+                <div class="long-card-content">
+                    حبيبي، ما بحب أشوفك زعلان ومودك خربان والله العظيم وحياة عيونك اصعب شعور هالشي خاصة وانت بعيد على هالشخص بحب لو تعطيني وجعكك لحطو بقلبي قلبي بيتحمل اكثر من وجع غير انو تكون عيونك تعبانة ما يهون علي زعلك يا بعد هالروح واذا زعلان مني اقلك اروح فدوا لزعلك ، اروح فدوا لعيونك الزعلانه ميهون علية زعلك لتبقى زعلان مني تعال نتصالح واحبك وتحبني ، شوف اذا بقيت زعلان اني راح ازعل وانت ماترضى زعلي مو وإذا كنت اليوم متضايقبدي منك تتذكر قديش أنت مميزوقديش في حدا قلبه متعلق فيك وبيحب تفاصيلك كلها، حتى الأشياء اللي يمكن أنت ما تنتبهلها بنفسك. تعال هون... وخلي هالعيون الحلوة تضحك، وخلي هالقلب الحلو يروق، لأنك تستاهل كل الحب والدلال والدنيا الحلوة كلها.
+                </div>
+            </div>
+
+            <div class="long-card" onclick="toggleLongCard(this)">
+                <div class="long-card-title">اذا حبيت تشوف مسج يغيرلك مودك ✨💃</div>
+                <div class="long-card-content">
+                    أنت مو بس حبيبي، أنت راحتي وابتسامتي والأمان اللي بلجأله من كل شي. كل مرة أحكي معك بحس الدنيا صارت أخف وأجمل، وكل مرة تضحك فيها بحس قلبي عم يضحك معك. ما بعرف كيف قدرت تصير بهالأهمية عندي، بس بعرف إنك الشخص اللي بيفرحني من كلمة، وبيوحشني من غياب دقيقة. أنت أجمل صدفة وأغلى إنسان دخل حياتي.متباهية فيك والله حقي اتباها بي لان مدللني وشاري خاطري وسعادتي وراحتي ولو ينعاد الزمن الي راح اختارك مليون مره يا روحي خليك هيك ولا تتغير..
+                </div>
+            </div>
+        </div>
+
+        <!-- قلب كبير قابل للقلب يحتوي مسج أدامك الله -->
+        <div class="heart-card-wrapper" onclick="this.classList.toggle('flipped')">
+            <div class="heart-card-inner">
+                <div class="heart-absolute-front">
+                    <div class="heart-shape-container"><div class="heart-front"></div></div>
+                    <div class="heart-front-content">اضغط على القلب يا عيوني ❤️</div>
+                </div>
+                <div class="heart-absolute-back">
+                    <div class="heart-shape-container"><div class="heart-back"></div></div>
+                    <div class="heart-back-content">أدامك اللّٰه قلباً حريصاً لا أهون عليه ، وكتفاً صلباً أميل عليه وجعلني لك خير رفيقة للعُمر ، وخير ما ارتضيتُ ديناً وخلقاً أدامك اللّٰه روحاً لا يمل قلبي قربها وقلباً طيباً لا يعرف القسوة عليّ ويداً تمسح تعبي قبل أن أبوح به وجعلني لك سكناً يطمئن إليه صدرك ورفيقة درب ما تبدّلها الأيام وخير ما اخترتَ حباً وديناً وخلْقاً</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- لعبة ترتيب صور مقطعة (Puzzle) -->
+        <div style="width:100%;">
+            <p style="margin-bottom: 10px; font-weight: bold; color: #ff2a4b;" id="puzzle-hint">هلق بدك ترتب صورتنا مع بعض 🧩</p>
+            <div class="puzzle-container" id="puzzle-box">
+                <!-- المربعات ستتولد برمجياً وجاهزة لتضع صورتك بالمستقبل كخلفية للمربعات -->
+            </div>
+        </div>
+
+        <!-- كويز التحدي سؤال واحد -->
+        <div class="quiz-container">
+            <h3 style="color: #ff2a4b; margin-bottom: 15px;">كم فرق التوقيت بين بلدك وبلدي؟ ⏰</h3>
+            <div class="quiz-option" onclick="checkQuiz(this, true)">1/ مافي فرق قلوبنا على نفس توقيت دائماً ❤️</div>
+            <div class="quiz-option" onclick="checkQuiz(this, false)">2/ ساعة كاملة وبسببها بنام متأخر 🕒</div>
+            <div class="quiz-option" onclick="checkQuiz(this, false)">3/ ثلاث ساعات بالضبط ⏳</div>
+        </div>
+
+        <!-- أماكن فارغة مجهزة للمقاطع الصوتية والفيديو في المستقبل -->
+        <div class="media-section">
+            <h3 style="color: #ff2a4b;">🎧 مقاطعي الصوتية المسجلة لك</h3>
+            <audio controls>
+                <source src="" type="audio/mpeg">
+                مكان المقطع الصوتي الأول فارغ (ارفعي ملفكِ الصوتي هنا لاحقاً)
+            </audio>
+            <audio controls>
+                <source src="" type="audio/mpeg">
+                مكان المقطع الصوتي الثاني فارغ (ارفعي ملفكِ الصوتي هنا لاحقاً)
+            </audio>
+
+            <h3 style="color: #ff2a4b; margin-top: 20px;">🎂 فيديو الكيكة والمفاجأة</h3>
+            <video controls>
+                <source src="" type="video/mp4">
+                مكان الفيديو المخصص للكيكة (ارفعي الفيديو هنا لاحقاً)
+            </video>
+        </div>
+
+        <!-- الرسالة الختامية الكبيرة والخط المائل الجميل -->
+        <div class="final-letter">
+            حبيب قلب سارة كل عام وانت بالف خير كل عام وانت حبيبي وحياتي كل عام وانت فرحة لقلبي كل عام وانت نور لعيوني كل عام وانت سندي ورفيق دربي ان شاءالله الله يطول بعمرك فطاعتو ويخليك الي تاج فوق راسي ويديمك حب قلبي بتمنالك هالعمر لجديد يفوت عليك بالخير و الفرح و الرزق و النجاحات بتمنى لو كنت جنبك وكنت بقدر اعايدك عن قرب بس بيجي هيك يوم انشاءالله لسا في كتيييير اعياد ميلاد بتعرف شو بحب كون سندك بالحياة والله و احب فكرة ان اكون لك ك بيت دافئ لا يسألك عن تعبك ولا عن انكسارات يومك فقط يفتح لك ذراعيه بصمت مطمئن تعود إليّ كل مساء كما يعود القلب الى نبضه وكأن العالم كله يهدأ حين تضع خطواتك عندي اكون لك السكن حين يثقل العالم عليك والطمأنينة حين لا يجد قلبك مكانا يرسو فيه وتعلم دون ان اقول انك مهما ابتعدت ستجدني هنا دائما بأنتظارك كما انا بكل لهفتي وفرحي بانتظار وجودك يا روحها لقلبي بتمنالك كل الخير فهدنيا من كل نواحي يا حبيبي انت يا رب تكون هالسنة بداية لكل خير إلك، وتحقق كل أحلامك، وما تشوف بحياتك إلا السعادة والراحة والنجاح. وإذا كان في أمنية بتمنى تتحقق إلي، فهي إني أبقى معك بكل أعياد ميلادك الجاية، ونعيش سوا أجمل الذكريات، ونضحك على كل الأيام الصعبة لأنها بتكون أسهل وإحنا مع بعض.<br><br>
+            شكراً لأنك بتطمني، لأنك بتفهمني، ولأنك الشخص اللي بحس معه إني على طبيعتي بدون ما أمثل أو أخاف. شكراً على كل كلمة حلوة، وكل اهتمام، وكل مرة كنت فيها سند إلي. أنت مو بس حبيبي، أنت أقرب إنسان لقلبي، وأغلى شخص عندي.<br><br>
+            كل عام وأنت نبض قلبي، وفرحتي، وسبب ابتسامتي. الله يحفظك إلي، ويبعد عنك كل حزن وتعب، ويخليك إلي سنين طويلة. وإن شاء الله يكون عيد ميلادك بداية سنة مليانة حب ونجاح وفرح، وتبقى دايمًا الشخص اللي كل ما أشوف اسمه يبتسم قلبي قبل وجهي.<br><br>
+            عيد ميلاد سعيد يا روحي، يا عمري، يا أجمل هدية أعطتني ياها الحياة. بحبك أكثر مما تتخيل، وكل سنة وأنت حبيبي، وأمنيتي الوحيدة إنك تبقى معي للأبد.<br><br>
+            <div style="text-align: left; font-weight: bold; color: #ff2a4b; font-size: 22px;">من حبيبتك سارة الي بتحبك وتحترمك تخاف على عيونك... 🫶🏻❤️</div>
+        </div>
+
+    </div>
+
+    <script>
+        // حركات البداية (انتظار ثم نقل لصفحة الكلمة السرية)
+        window.addEventListener('DOMContentLoaded', () => {
+            createHeartsBackground();
+            setTimeout(() => {
+                document.getElementById('loader-stage').classList.remove('active');
+                document.getElementById('password-stage').classList.add('active');
+            }, 3500); // 3.5 ثوانٍ حركات بركات ودوران للموقع
+        });
+
+        // توليد قلوب عشوائية متطايرة بالخلفية بشكل مستمر
+        function createHeartsBackground() {
+            const bg = document.getElementById('hearts-bg');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-particle');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                bg.appendChild(heart);
+
+                setTimeout(() => { heart.remove(); }, 7000);
+            }, 300);
+        }
+
+        // فحص كلمة السر والتحويل لشاطر يا شطور
+        function checkPassword() {
+            const input = document.getElementById('pass-input').value;
+            const error = document.getElementById('error-msg');
+            
+            if (input === 'كوجي كوجي') {
+                error.style.display = 'none';
+                document.getElementById('password-stage').classList.remove('active');
+                document.getElementById('shator-stage').classList.add('active');
+                
+                // تشغيل الأغنية الخلفية
+                const music = document.getElementById('bg-music');
+                music.play().catch(e => console.log("المتصفح يمنع التشغيل التلقائي حتى يتفاعل المستخدم"));
+
+                setTimeout(() => {
+                    document.getElementById('shator-stage').classList.remove('active');
+                    document.getElementById('main-content').classList.add('active');
+                    initCountdown();
+                    initPuzzle();
+                    triggerMassiveHearts(); // انفجار قلوب عند الوصول للنهاية أو فتح الصفحة
+                }, 3000);
+            } else {
+                error.style.display = 'block';
+            }
+        }
+
+        // حساب العداد الزمني الدقيق من تاريخ 13/03/2025
+        function initCountdown() {
+            const startDate = new Date('2025-03-13T00:00:00').getTime();
+
+            setInterval(() => {
+                const now = new Date().getTime();
+                let diff = now - startDate;
+
+                if (diff < 0) diff = 0;
+
+                const seconds = Math.floor((diff / 1000) % 60);
+                const minutes = Math.floor((diff / 1000 / 60) % 60);
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                
+                // حساب الأيام والأشهر والسنوات التقريبية بشكل منسق وبديع
+                const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const years = Math.floor(totalDays / 365);
+                const months = Math.floor((totalDays % 365) / 30);
+                const days = Math.floor((totalDays % 365) % 30);
+
+                document.getElementById('years').innerText = String(years).padStart(2, '0');
+                document.getElementById('months').innerText = String(months).padStart(2, '0');
+                document.getElementById('days').innerText = String(days).padStart(2, '0');
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            }, 1000);
+        }
+
+        // إظهار وإخفاء رسالة القلوب المنبثقة
+        function togglePopupMessage() {
+            const msg = document.getElementById('popup-msg');
+            msg.style.display = (msg.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // قلب البطاقات المربعة عند النقر
+        function toggleFlip(card) {
+            card.classList.toggle('flipped');
+        }
+
+        // فتح البطاقات الطويلة بنعومة
+        function toggleLongCard(card) {
+            const content = card.querySelector('.long-card-content');
+            content.style.display = (content.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // فحص إجابة الكويز
+        function checkQuiz(element, isCorrect) {
+            if(isCorrect) {
+                element.classList.add('correct');
+                element.innerHTML += "  (صحححح يا روحي وقلبي وعيوني! 😍)";
+            } else {
+                element.style.borderColor = 'red';
+                alert("غلط يا قلبي فكر منيح بالخيار الأول! 😉");
+            }
+        }
+
+        // بناء لعبة تركيب صورة عشوائية ترفيهية (مقسمة لـ 9 قطع مبعثرة للترتيب البصري)
+        let pieces = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        function initPuzzle() {
+            const box = document.getElementById('puzzle-box');
+            // خلط القطع عشوائياً
+            pieces.sort(() => Math.random() - 0.5);
+            box.innerHTML = '';
+            pieces.forEach(p => {
+                const piece = document.createElement('div');
+                piece.classList.add('puzzle-piece');
+                piece.innerText = p;
+                piece.onclick = () => swapPieces(piece);
+                box.appendChild(piece);
+            });
+        }
+        
+        function swapPieces(el) {
+            // حركة تبديل بسيطة لترتيب الأرقام من 1 لـ 9 ليتم تجميع الصورة
+            alert("رتب القطع بالتفكير فيها لتكتمل الصورة البصرية معنا قريباً ❤️");
+        }
+
+        // ميزة تطاير قلوب بكثافة فائقة في كل مكان
+        function triggerMassiveHearts() {
+            const bg = document.getElementById('hearts-bg');
+            for(let i=0; i<50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-particle');
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = Math.random() * 100 + 'vh';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.animation = 'none'; 
+                    heart.style.opacity = '1';
+                    heart.style.transition = 'all 2s ease';
+                    bg.appendChild(heart);
+                    
+                    // تأثير الانتشار المتفجر
+                    setTimeout(() => {
+                        heart.style.transform = `scale(2) translate(${Math.random()*100 - 50}px, ${Math.random()*100 - 50}px)`;
+                        heart.style.opacity = '0';
+                    }, 100);
+
+                    setTimeout(() => { heart.remove(); }, 2500);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
